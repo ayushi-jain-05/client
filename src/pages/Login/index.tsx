@@ -4,6 +4,7 @@ import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
 import styles from "./styles.module.css";
+import Spinner from 'react-bootstrap/Spinner';
 import { UserDetails,Profile } from '../../interfaces';
 import { Container } from 'react-bootstrap';
 
@@ -13,6 +14,7 @@ const Login: React.FC = () => {
   const [profile, setProfile] = useState<Profile>();
   const [mobileNumber, setMobileNumber] = useState<string>('');
   const [dob, setDOB] = useState('');
+  const [loading, setLoading] = useState(false);
   const [gender, setGender] = useState<string>('');
   const [aboutme, setaboutMe] = useState<string>('');
   const [gotDetail, setGotDetail] = useState<boolean>();
@@ -53,28 +55,28 @@ const Login: React.FC = () => {
         })
         .then(async (res) => {
           //to avoid duplicate entries
-         
-        // window.localStorage.setItem('email', res.data.email);
           localStorage.setItem('email', JSON.stringify(res.data.email));
 
           const now = new Date().getTime();
           localStorage.setItem('lastLoginTime', now.toString());
 
-          let subres = await axios.get(`${process.env.REACT_APP_API_URL}/getuser?email=${res.data.email}`);
+          let storeEmail= await axios.get(`${process.env.REACT_APP_API_URL}/getuser?email=${res.data.email}`);
 
-          if (subres?.data?.Gender) {
+          if (storeEmail?.data?.Gender) {
+            setLoading(true)
             setGotDetail(true);
           } else {
             setGotDetail(false);
           }
           setProfile(res.data);
+           setLoading(false)
         })
         .catch((err) => console.log(err));
     }
   , [user]);
 
   return (
-    
+  
     <div>
       {!user?.access_token && (
         <div>
@@ -89,9 +91,17 @@ const Login: React.FC = () => {
           </div>
         </div>
       )}
+
       <>
       {user?.access_token && gotDetail === false ? (
-        
+        <>
+        {loading && (
+          <div className="d-flex justify-content-center align-items-center">
+            <Spinner animation="border" role="status">
+              <span className="sr-only">Loading...</span>
+            </Spinner>
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
         <h3>Please provide more details</h3>
         <div className="form-group">
@@ -118,6 +128,7 @@ const Login: React.FC = () => {
         <br></br>
         <button type="submit" className="btn btn-primary">Submit</button>
       </form>
+      </>
        ): 	gotDetail===true?	navigate("/data/profile"): <div> </div>
       
  	}</>

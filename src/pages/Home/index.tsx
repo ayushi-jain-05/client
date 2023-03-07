@@ -117,6 +117,7 @@ export default function UserProfile() {
     setLoading(false)
   }
   return (
+        <div className="App">
     <>
     {loggedInUser ? (
       <>
@@ -129,7 +130,6 @@ export default function UserProfile() {
           </div>
         )}
 
-        <div className="App">
 
           <h1 className="display-4 text-center my-5">User Details</h1>
           <div className="topnav" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -200,11 +200,11 @@ export default function UserProfile() {
           <button className="btn btn-danger  bottom mt-3  d-flex justify-content-center" style={{ width: "100px" }} onClick={logout}>
             Log Out
           </button>
-        </div>
       </>) : (
         navigate("/login")
-      )
+        )
 }
     </>
+        </div>
   )
 }

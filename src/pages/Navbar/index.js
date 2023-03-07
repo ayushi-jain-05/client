@@ -21,7 +21,7 @@ const Navbar = () => {
     <span class="navbar-toggler-icon">
     <div class="nav-item dropdown d-lg-none">
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item">Action</a>
           <a class="dropdown-item" href="#">Another action</a>
           <a class="dropdown-item" href="#">Something else here</a>
         </div>

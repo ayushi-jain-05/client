@@ -123,3 +123,92 @@
 .google_btn > span{
     margin-left: 10px;
 }
+
+/* Desktop view */
+.form-group {
+    display: inline-block;
+    width: 45%;
+    margin-right: 5%;
+  }
+  .form-group:nth-child(even) {
+    margin-right: 0;
+  }
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  input[type="tel"],
+  textarea {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+  button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+  /* Tablet view */
+  @media screen and (max-width: 768px) {
+    .form-group {
+      width: 100%;
+      margin-right: 0;
+      margin-bottom: 15px;
+    }
+    .form-group:nth-child(even) {
+      margin-right: 0;
+    }
+  }
+  
+  /* Mobile view */
+  @media screen and (max-width: 480px) {
+    input[type="tel"],
+    textarea {
+      font-size: 14px;
+    }
+    button {
+      font-size: 16px;
+      padding: 8px 16px;
+    }
+  }
+
+  
+  /* Tablet view */
+  @media screen and (max-width: 768px) {
+    .heading {
+      font-size: 24px;
+    }
+    /* .form_container {
+      height: auto;
+      flex-direction: column;
+    } */
+    .right {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  }
+  
+  /* Mobile view */
+  @media screen and (max-width: 480px) {
+    .heading {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    .google_btn {
+      height: 40px;
+      font-size: 14px;
+      max-width: 250px;
+    }
+  }
+ 
+  
