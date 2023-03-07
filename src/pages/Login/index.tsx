@@ -54,7 +54,7 @@ const Login: React.FC = () => {
         .then(async (res) => {
           //to avoid duplicate entries
          
-         window.localStorage.setItem('email', res.data.email);
+        // window.localStorage.setItem('email', res.data.email);
           localStorage.setItem('email', JSON.stringify(res.data.email));
 
           const now = new Date().getTime();
