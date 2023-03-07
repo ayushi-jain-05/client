@@ -12,7 +12,7 @@ const Navbar = () => {
   const logout = () => {
       googleLogout();
       localStorage.clear();
-    navigate("/");
+    navigate("/login");
   };
   return (
   <nav class="navbar navbar-expand-lg navbar-light bg-light">

@@ -54,11 +54,11 @@ const Login: React.FC = () => {
         .then(async (res) => {
           //to avoid duplicate entries
          
-          window.localStorage.setItem('email', res.data.email);
-          localStorage.setItem('email1', res.data.email);
+         // window.localStorage.setItem('email', res.data.email);
+          localStorage.setItem('email', JSON.stringify(res.data.email));
 
-          const now = new Date().getTime();
-          localStorage.setItem('lastLoginTime', now.toString());
+          // const now = new Date().getTime();
+          // localStorage.setItem('lastLoginTime', now.toString());
 
           let subres = await axios.get(`${process.env.REACT_APP_API_URL}/getuser?email=${res.data.email}`);
 

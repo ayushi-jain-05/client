@@ -5,7 +5,11 @@ import Navbar  from '../Navbar/index.js';
 
 
 function Profile() {
-  const updateemail = localStorage.getItem("email1");
+  const updateemail = localStorage.getItem("email");
+  
+  const loggedInUser: string = JSON.parse(
+    updateemail as string
+  )
 
   const navigate = useNavigate();
 
@@ -88,6 +92,8 @@ function Profile() {
   
   return (
     <>
+    {loggedInUser ? (
+    <>
     <Navbar/><br></br>
     <div>
       <form onSubmit={handleSubmit} className="form-group">
@@ -147,6 +153,11 @@ function Profile() {
    </form>
      </div>
      </>
+     ) : (
+      navigate("/login")
+    )
+}
+</>
   )
 }
 export default Profile
