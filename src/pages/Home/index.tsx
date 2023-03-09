@@ -130,8 +130,8 @@ export default function UserProfile() {
           </div>
         )}
 
-
-          <h1 className="display-4 text-center my-5">User Details</h1>
+         <br></br>
+          {/* <h5 className="display-4 text-center my-5">User Details</h5> */}
           <div className="topnav" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <div className="d-flex justify-content-between align-items-center">
               <button className="btn btn-primary" onClick={(e: React.MouseEvent<HTMLButtonElement>) => editprofile(e)}>Edit Profile</button>
@@ -198,9 +198,9 @@ export default function UserProfile() {
               Next
             </button>
           </div>
-          <button className="btn btn-danger  bottom mt-3  d-flex justify-content-center" style={{ width: "100px" }} onClick={logout}>
+          {/* <button className="btn btn-danger  bottom mt-3  d-flex justify-content-center" style={{ width: "100px" }} onClick={logout}>
             Log Out
-          </button>
+          </button> */}
       </>) : (
         navigate("/login")
         )

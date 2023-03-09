@@ -80,7 +80,7 @@ const Login: React.FC = () => {
   
     <div>
       {!user?.access_token && (
-        <div>
+        <div >
           <h1 className={styles.heading}>Log in Form</h1>
           <div className={styles.form_container}>
             <div className={styles.right}>
