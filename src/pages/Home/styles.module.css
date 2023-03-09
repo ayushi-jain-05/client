@@ -1,0 +1,47 @@
+@media (max-width: 767px) {
+    .App {
+      padding: 10px;
+    }
+  
+    #details {
+      font-size: 14px;
+    }
+  }
+  
+  /* For screens larger than 768px */
+  @media (min-width: 768px) {
+    .App {
+      padding: 20px;
+    }
+  
+    #details {
+      font-size: 16px;
+    }
+  }
+
+.App {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  @media only screen and (max-width: 768px) {
+    .topnav {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .topnav h5 {
+      margin-right: 0;
+    }
+  }
+  
+  @media only screen and (max-width: 576px) {
+    .input-group {
+      flex-direction: column;
+    }
+    .input-group button {
+      width: 100%;
+      margin-top: 10px;
+    }
+  }
+  

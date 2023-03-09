@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import styles from "./styles.module.css";
 import { googleLogout } from "@react-oauth/google";
-
+import  {Dropdown}  from "react-bootstrap";
+import "../../App.css";
 
 const Navbar = () => {
 
@@ -15,34 +16,37 @@ const Navbar = () => {
     navigate("/login");
   };
   return (
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon">
-    <div class="nav-item dropdown d-lg-none">
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-        </div>
+    <div className={styles.App}>
+  <nav className="navbar navbar-expand-md navbar-light bg-light">
+    <a className="navbar-brand" href="#">User Details</a>
+    <span>
+    <Dropdown className="d-md-none">
+      <Dropdown.Toggle variant="success" id="dropdown-basic"  data-toggle="collapse" data-target="#navbarNav" className="navbar-toggler">
+        Menu
+      </Dropdown.Toggle>
+      <Dropdown.Menu>
+        <Dropdown.Item href="/" onClick={logout}>Log Out</Dropdown.Item>
+        <Dropdown.Item href="/data/profile">Users Details</Dropdown.Item>
+        <Dropdown.Item href="/profile">Edit Profile</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
     </span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-            <Link class="nav-link" to="/" onClick={logout}>Log Out</Link>
-      </li>
-      <li class="nav-item">
-            <Link class="nav-link" to="/data/profile" >Users Details</Link>
-      </li>
-      <li class="nav-item">
-            <Link class="nav-link" to="/profile" >Edit Details</Link>
-      </li>
-      
-    </ul>
-  </div>
-</nav>
+    <div className="collapse navbar-collapse" id="navbarNav">
+      <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li className="nav-item">
+          <a className="nav-link" href="/" onClick={logout}>Log Out</a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="/data/profile">Users Details</a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="/profile">Edit Details</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
   )
 }
 

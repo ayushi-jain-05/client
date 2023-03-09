@@ -6,10 +6,6 @@ import Navbar  from '../Navbar/index.js';
 
 function Profile() {
   const updateemail = JSON.parse(localStorage.getItem("email") as string);
-  
-  // const loggedInUser: string = JSON.parse(
-  //   updateemail as string
-  // )
 
   const loggedInUser: string = updateemail;
 
@@ -138,10 +134,6 @@ function Profile() {
       <option value="other">Other</option>
     </select>
   </div>
-     {/* <div className="form-group">
-        <label htmlFor="dob">Birth Date:</label>
-     <input type="date" className="form-control" id="date_Of_Birth" value={dob} onChange={e => setDOB(e.target.value)} />
-     </div> */}
      <div className="form-group">
           <label htmlFor="dob">Date of Birth:</label>
           <input type="date" id="date_Of_Birth" value={dob} onChange={(event) => setDOB(event.target.value)} className="form-control"  />

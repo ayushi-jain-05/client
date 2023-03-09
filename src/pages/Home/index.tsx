@@ -5,6 +5,7 @@ import Navbar from '../Navbar/index.js';
 import Spinner from 'react-bootstrap/Spinner';
 import { googleLogout } from "@react-oauth/google";
 import { UserData } from "../../interfaces.js";
+import styles from "./styles.module.css";
 
 let val = ""
 export default function UserProfile() {
@@ -117,11 +118,11 @@ export default function UserProfile() {
     setLoading(false)
   }
   return (
-        <div className="App">
+        <div className={styles.App}>
     <>
     {loggedInUser ? (
       <>
-        <Navbar />
+        <Navbar/>
         {loading && (
           <div className="d-flex justify-content-center align-items-center">
             <Spinner animation="border" role="status">
@@ -134,7 +135,7 @@ export default function UserProfile() {
           {/* <h5 className="display-4 text-center my-5">User Details</h5> */}
           <div className="topnav" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <div className="d-flex justify-content-between align-items-center">
-              <button className="btn btn-primary" onClick={(e: React.MouseEvent<HTMLButtonElement>) => editprofile(e)}>Edit Profile</button>
+              {/* <button className="btn btn-primary" onClick={(e: React.MouseEvent<HTMLButtonElement>) => editprofile(e)}>Edit Profile</button> */}
               <span style={{ marginLeft: '500px' }}><p className="text-muted mb-0" style={{ textAlign: 'right' }}>Last Login Time: {val}</p></span></div>
           </div>
           <br></br>
