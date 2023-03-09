@@ -110,7 +110,7 @@ const Login: React.FC = () => {
         </div>
         <div className="form-group">
           <label htmlFor="dob">Date of Birth:</label>
-          <input type="date" id="date_Of_Birth" value={dob} onChange={(event) => setDOB(event.target.value)} className="form-control" required />
+          <input type="date" id="date_Of_Birth" max={moment().format('YYYY-MM-DD')} value={dob} onChange={(event) => setDOB(event.target.value)} className="form-control" required />
         </div>
         <div className="form-group">
           <label htmlFor="gender">Enter your gender:</label>

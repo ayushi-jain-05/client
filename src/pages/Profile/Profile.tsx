@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar  from "../Navbar/index";
-
+import moment from "moment";
 
 function Profile() {
   const updateemail = JSON.parse(localStorage.getItem("email") as string);
@@ -114,7 +114,7 @@ function Profile() {
   </div>
      <div className="form-group">
           <label htmlFor="dob">Date of Birth:</label>
-          <input type="date" id="date_Of_Birth" value={dob} onChange={(event) => setDOB(event.target.value)} className="form-control"  />
+          <input type="date" id="date_Of_Birth" max={moment().format('YYYY-MM-DD')} value={dob} onChange={(event) => setDOB(event.target.value)} className="form-control"  />
         </div>
      <div className="form-group">
   <label htmlFor="aboutme">About Me:</label>
