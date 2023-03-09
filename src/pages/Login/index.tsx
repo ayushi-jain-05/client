@@ -81,7 +81,7 @@ const Login: React.FC = () => {
     <div>
       {!user?.access_token && (
         <div >
-          <h1 className={styles.heading}>Log in Form</h1>
+          <h1 className={styles.heading}>Log in Form</h1><br></br>
           <div className={styles.form_container}>
             <div className={styles.right}>
               <button className={styles.google_btn} onClick={() => googleAuth()}>

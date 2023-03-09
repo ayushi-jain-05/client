@@ -1,10 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { format } from 'date-fns';
-import Navbar from '../Navbar/index.js';
+import Navbar from '../Navbar/index';
 import Spinner from 'react-bootstrap/Spinner';
 import { googleLogout } from "@react-oauth/google";
-import { UserData } from "../../interfaces.js";
+import { UserData } from "../../interfaces";
 import styles from "./styles.module.css";
 
 let val = ""

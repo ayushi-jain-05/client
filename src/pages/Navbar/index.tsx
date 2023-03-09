@@ -1,15 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import styles from "./styles.module.css";
 import { googleLogout } from "@react-oauth/google";
 import  {Dropdown}  from "react-bootstrap";
 import "../../App.css";
-
 const Navbar = () => {
-
   const navigate = useNavigate();
-
   const logout = () => {
       googleLogout();
       localStorage.clear();
@@ -46,7 +42,6 @@ const Navbar = () => {
     </div>
   </nav>
 </div>
-
   )
 }
 
