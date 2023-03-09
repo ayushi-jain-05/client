@@ -128,7 +128,7 @@ export default function UserProfile() {
               <button
                 className="btn btn-primary "
                 type="submit"
-                style={{ width: "100px", height: "50px" }}
+                style={{ width: "10%", height: "50px" }}
                 onClick={getSearchData}
               >
                 Search
@@ -136,7 +136,7 @@ export default function UserProfile() {
               <button
                 className="btn btn-danger "
                 type="submit"
-                style={{ width: "100px", height: "50px" }}
+                style={{ width: "10%", height: "50px" }}
                 onClick={onClickReset} >
                 Reset
               </button>

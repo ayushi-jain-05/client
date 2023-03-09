@@ -22,22 +22,22 @@ const Navbar = () => {
         Menu
       </Dropdown.Toggle>
       <Dropdown.Menu>
-        <Dropdown.Item href="/" onClick={logout}>Log Out</Dropdown.Item>
         <Dropdown.Item href="/data/profile"> Details</Dropdown.Item>
         <Dropdown.Item href="/profile">Edit Profile</Dropdown.Item>
+        <Dropdown.Item href="/" onClick={logout}>Log Out</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
     </span>
     <div className="collapse navbar-collapse" id="navbarNav">
       <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
         <li className="nav-item">
-          <a className="nav-link" href="/" onClick={logout}>Log Out</a>
+        <a className="nav-link" href="/profile">Edit Details</a>
         </li>
         <li className="nav-item">
           <a className="nav-link" href="/data/profile">Users Details</a>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="/profile">Edit Details</a>
+          <a className="nav-link" href="/" onClick={logout}>Log Out</a>
         </li>
       </ul>
     </div>
