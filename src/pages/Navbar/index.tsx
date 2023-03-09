@@ -13,6 +13,7 @@ const Navbar = () => {
   };
   return (
     <div className={styles.App}>
+      <div className={styles.nav}>
   <nav className="navbar navbar-expand-md navbar-light bg-light">
     <a className="navbar-brand" href="#">User Details</a>
     <span>
@@ -22,7 +23,7 @@ const Navbar = () => {
       </Dropdown.Toggle>
       <Dropdown.Menu>
         <Dropdown.Item href="/" onClick={logout}>Log Out</Dropdown.Item>
-        <Dropdown.Item href="/data/profile">Users Details</Dropdown.Item>
+        <Dropdown.Item href="/data/profile"> Details</Dropdown.Item>
         <Dropdown.Item href="/profile">Edit Profile</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
@@ -41,6 +42,7 @@ const Navbar = () => {
       </ul>
     </div>
   </nav>
+  </div>
 </div>
   )
 }

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { format } from 'date-fns';
 import Navbar from '../Navbar/index';
 import Spinner from 'react-bootstrap/Spinner';
-import { googleLogout } from "@react-oauth/google";
+// import { googleLogout } from "@react-oauth/google";
 import { UserData } from "../../interfaces";
 import styles from "./styles.module.css";
 
@@ -20,7 +20,7 @@ export default function UserProfile() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [filterdata, setFilterdata] = useState<number>(1);       //searchpage
-  const [query, setQuery] = useState("");                       //searching string
+  //const [query, setQuery] = useState("");                       //searching string
   const [search, setSearch] = useState<string>("")
   let [actualData, setActualData] = useState<UserData[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -34,14 +34,6 @@ export default function UserProfile() {
     const formattedLastLoginTime = format(lastLoginDate, 'MMM dd, yyyy HH:mm');
     val = formattedLastLoginTime
   }
-  //Logout Functionality
-  const logout = () => {
-    googleLogout();
-    localStorage.clear();
-    navigate("/login");
-    setUserData([]);
-  };
-
   const getData = async () => {
     try {
       setLoading(true);
@@ -82,11 +74,6 @@ export default function UserProfile() {
   useEffect(() => {
     getData();
   }, []);
-
-  //Update Profile
-  const editprofile = (event: React.MouseEvent<HTMLButtonElement>) => {
-    navigate("/profile");
-  };
 
   //Search Reset
   const onClickReset = () => {
@@ -132,10 +119,8 @@ export default function UserProfile() {
         )}
 
          <br></br>
-          {/* <h5 className="display-4 text-center my-5">User Details</h5> */}
           <div className="topnav" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <div className="d-flex justify-content-between align-items-center">
-              {/* <button className="btn btn-primary" onClick={(e: React.MouseEvent<HTMLButtonElement>) => editprofile(e)}>Edit Profile</button> */}
               <span style={{ marginLeft: '500px' }}><p className="text-muted mb-0" style={{ textAlign: 'right' }}>Last Login Time: {val}</p></span></div>
           </div>
           <br></br>
@@ -199,9 +184,6 @@ export default function UserProfile() {
               Next
             </button>
           </div>
-          {/* <button className="btn btn-danger  bottom mt-3  d-flex justify-content-center" style={{ width: "100px" }} onClick={logout}>
-            Log Out
-          </button> */}
       </>) : (
         navigate("/login")
         )

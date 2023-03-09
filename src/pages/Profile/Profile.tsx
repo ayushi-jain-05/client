@@ -40,7 +40,6 @@ function Profile() {
       setProfileImage(file);
     }
   };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData();
