@@ -1,17 +1,14 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { format } from 'date-fns';
-import Navbar from '../Navbar/index';
-import Spinner from 'react-bootstrap/Spinner';
-// import { googleLogout } from "@react-oauth/google";
+import { format } from "date-fns";
+import Navbar from "../Navbar/index";
+import Spinner from "react-bootstrap/Spinner";
 import { UserData } from "../../interfaces";
 import styles from "./styles.module.css";
 
 let val = ""
 export default function UserProfile() {
-  const loggedInUser: string = JSON.parse(
-    localStorage.getItem("email") as string
-  )
+  const loggedInUser: string = JSON.parse(localStorage.getItem("email") as string)
   const [userData, setUserData] = useState<UserData[]>([]);
   const [page, setPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(4);
@@ -20,7 +17,6 @@ export default function UserProfile() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [filterdata, setFilterdata] = useState<number>(1);       //searchpage
-  //const [query, setQuery] = useState("");                       //searching string
   const [search, setSearch] = useState<string>("")
   let [actualData, setActualData] = useState<UserData[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -31,9 +27,11 @@ export default function UserProfile() {
   const [lastLoginTime, setLastLoginTime] = useState(localStorage.getItem("lastLoginTime"));
   if (lastLoginTime) {
     const lastLoginDate = new Date(parseInt(lastLoginTime));
-    const formattedLastLoginTime = format(lastLoginDate, 'MMM dd, yyyy HH:mm');
+    const formattedLastLoginTime = format(lastLoginDate, "MMM dd, yyyy HH:mm");
     val = formattedLastLoginTime
   }
+
+  //fetchdata from backend
   const getData = async () => {
     try {
       setLoading(true);
@@ -121,7 +119,7 @@ export default function UserProfile() {
          <br></br>
           <div className="topnav" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <div className="d-flex justify-content-between align-items-center">
-              <span style={{ marginLeft: '500px' }}><p className="text-muted mb-0" style={{ textAlign: 'right' }}>Last Login Time: {val}</p></span></div>
+              <span style={{ marginLeft: "500px" }}><p className="text-muted mb-0" style={{ textAlign: "right" }}>Last Login Time: {val}</p></span></div>
           </div>
           <br></br>
           <div className="ui search">
@@ -173,7 +171,6 @@ export default function UserProfile() {
     ))}
   </tbody>
 </table>
-
           <br></br>
           <h5>Total users: {totalResult}</h5>
           <div className="btn-group" role="group" aria-label="Pagination buttons">

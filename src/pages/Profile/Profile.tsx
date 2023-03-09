@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Navbar  from '../Navbar/index';
+import Navbar  from "../Navbar/index";
 
 
 function Profile() {
@@ -99,13 +99,9 @@ function Profile() {
         </div>
         <div className="form-group">
           <label htmlFor="mobileNumber">Number:</label>
-          <input
-            type="number"
-            className="form-control"
-            id="mobileNumber"
-            value={mobileNumber}
-            onChange={(e) => setMobileNumber(e.target.value)}
-          />
+          <input type="tel" className="form-control"
+          id="mobileNumber" value={mobileNumber} onChange={(event) => setMobileNumber(event.target.value.replace(/[^\d+]/g,""))} 
+          pattern="[0-9]{10,14}" maxLength={10} />
         </div>
         <div className="form-group">
     <label htmlFor="gender">Gender:</label>

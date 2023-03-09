@@ -28,3 +28,11 @@ export  interface Profile {
     image: string;
     google_image: string;
   }
+export interface IGoogleOauthUser{
+    access_token: string,
+    authuser?: string,
+    expires_in: number,
+    prompt: string,
+    scope: string,
+    token_type: string
+}

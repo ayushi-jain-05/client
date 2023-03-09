@@ -1,30 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import moment from 'moment';
-import { useNavigate } from 'react-router-dom';
-import { useGoogleLogin } from '@react-oauth/google';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import moment from "moment";
+import { useNavigate } from "react-router-dom";
+import { useGoogleLogin } from "@react-oauth/google";
 import styles from "./styles.module.css";
-import Spinner from 'react-bootstrap/Spinner';
-import { UserDetails,Profile } from '../../interfaces';
-import { Container } from 'react-bootstrap';
+import Spinner from "react-bootstrap/Spinner";
+import { UserDetails,Profile,IGoogleOauthUser } from "../../interfaces";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
- const [user, setUser] = useState<any>();
+ const [user, setUser] = useState<IGoogleOauthUser>();
   const [profile, setProfile] = useState<Profile>();
-  const [mobileNumber, setMobileNumber] = useState<string>('');
-  const [dob, setDOB] = useState('');
+  const [mobileNumber, setMobileNumber] = useState<string>("");
+  const [dob, setDOB] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const [gender, setGender] = useState<string>('');
-  const [aboutme, setaboutMe] = useState<string>('');
-  const [gotDetail, setGotDetail] = useState<boolean>();
+  const [gender, setGender] = useState<string>("");
+  const [aboutme, setaboutMe] = useState<string>("");
+  const [checkUser, setcheckUser] = useState<boolean>();
 
   //google authentication
   const googleAuth = useGoogleLogin({
     onSuccess: (codeResponse) => {
       setUser(codeResponse);
     },
-    onError: (error) => console.log('Login Failed:', error),
+    onError: (error) => console.log("Login Failed:", error),
   });
   
 
@@ -35,12 +34,12 @@ const Login: React.FC = () => {
       dob,
       gender,
       aboutme,
-      loginTime: moment().format('MMMM Do YYYY, h:mm:ss a'),
+      loginTime: moment().format("MMMM Do YYYY, h:mm:ss a"),
       ...profile!,
     };
     
     axios.post(`${process.env.REACT_APP_API_URL}/userdata`, userDetails);
-    navigate('/data/profile');
+    navigate("/data/profile");
   };
 
 
@@ -51,23 +50,23 @@ const Login: React.FC = () => {
         .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
           headers: {
             Authorization: `Bearer ${user.access_token}`,
-            Accept: 'application/json',
+            Accept: "application/json",
           },
         })
         .then(async (res) => {
           //to avoid duplicate entries
-          localStorage.setItem('email', JSON.stringify(res.data.email));
+          localStorage.setItem("email", JSON.stringify(res.data.email));
 
           const now = new Date().getTime();
-          localStorage.setItem('lastLoginTime', now.toString());
+          localStorage.setItem("lastLoginTime", now.toString());
 
           let storeEmail= await axios.get(`${process.env.REACT_APP_API_URL}/getuser?email=${res.data.email}`);
 
-          if (storeEmail?.data?.Gender) {
+          if (storeEmail?.data?.email) {
             setLoading(true)
-            setGotDetail(true);
+            setcheckUser(true);
           } else {
-            setGotDetail(false);
+            setcheckUser(false);
           }
           setProfile(res.data);
            setLoading(false)
@@ -94,7 +93,7 @@ const Login: React.FC = () => {
       )}
 
       <>
-      {user?.access_token && gotDetail === false ? (
+      {user?.access_token && checkUser === false ? (
         <>
         {loading && (
           <div className="d-flex justify-content-center align-items-center">
@@ -130,7 +129,7 @@ const Login: React.FC = () => {
         <button type="submit" className="btn btn-primary">Submit</button>
       </form>
       </>
-       ): 	gotDetail===true?	navigate("/data/profile"): <div> </div>
+       ): 	checkUser===true?	navigate("/data/profile"): <div> </div>
       
  	}</>
  		</div>
