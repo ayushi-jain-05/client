@@ -19,6 +19,7 @@ const Login: React.FC = () => {
   const [aboutme, setaboutMe] = useState<string>('');
   const [gotDetail, setGotDetail] = useState<boolean>();
 
+  //google authentication
   const googleAuth = useGoogleLogin({
     onSuccess: (codeResponse) => {
       setUser(codeResponse);

@@ -159,34 +159,35 @@ export default function UserProfile() {
             </div>
           </div>
           <br></br>
-          <table className="table" id="details">
-            <thead className="thead-dark">
-              <tr>
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
-                <th scope="col">Gender</th>
-                <th scope="col">Date of Birth</th>
-                <th scope="col">Email</th>
-                <th scope="col">Mobile Number</th>
-                <th scope="col">About Me</th>
-                <th scope="col">Profile Picture</th>
-              </tr>
-            </thead>
-            <tbody>
-              {userData.slice(startIndex, endIndex).map((el) => (
-                <tr key={el._id}>
-                  <td>{el.firstName}</td>
-                  <td>{el.lastName}</td>
-                  <td>{el.Gender}</td>
-                  <td>{el.DateofBirth}</td>
-                  <td>{el.email}</td>
-                  <td>{el.Mobile}</td>
-                  <td>{el.aboutme}</td>
-                  <td><img src={el.image ? `${process.env.REACT_APP_API_URL}/${el.image}` : el.google_image} alt="profile" width="100" height="100" /></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <table className="table table-bordered table-hover table-responsive-md" id="details">
+  <thead className="thead-light">
+    <tr>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Gender</th>
+      <th scope="col">Date of Birth</th>
+      <th scope="col">Email</th>
+      <th scope="col">Mobile Number</th>
+      <th scope="col">About Me</th>
+      <th scope="col">Profile Picture</th>
+    </tr>
+  </thead>
+  <tbody>
+    {userData.slice(startIndex, endIndex).map((el) => (
+      <tr key={el._id}>
+        <td>{el.firstName}</td>
+        <td>{el.lastName}</td>
+        <td>{el.Gender}</td>
+        <td>{el.DateofBirth}</td>
+        <td>{el.email}</td>
+        <td>{el.Mobile}</td>
+        <td>{el.aboutme}</td>
+        <td><img src={el.image ? `${process.env.REACT_APP_API_URL}/${el.image}` : el.google_image} alt="profile" className="img-thumbnail" /></td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
           <br></br>
           <h5>Total users: {totalResult}</h5>
           <div className="btn-group" role="group" aria-label="Pagination buttons">
