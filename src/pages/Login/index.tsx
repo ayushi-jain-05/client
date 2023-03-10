@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import moment from "moment";
+import Flatpickr from 'react-flatpickr';
+import 'flatpickr/dist/themes/material_green.css'
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import styles from "./styles.module.css";
@@ -25,8 +27,6 @@ const Login: React.FC = () => {
     },
     onError: (error) => console.log("Login Failed:", error),
   });
-  
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const userDetails: UserDetails = {
@@ -37,12 +37,13 @@ const Login: React.FC = () => {
       loginTime: moment().format("MMMM Do YYYY, h:mm:ss a"),
       ...profile!,
     };
-    
+    if (!dob) {
+      alert('Please select a date of birth.');
+      return;
+    }
     axios.post(`${process.env.REACT_APP_API_URL}/userdata`, userDetails);
     navigate("/data/profile");
   };
-
-
 
   useEffect(() => {
     user &&
@@ -56,12 +57,9 @@ const Login: React.FC = () => {
         .then(async (res) => {
           //to avoid duplicate entries
           localStorage.setItem("email", JSON.stringify(res.data.email));
-
           const now = new Date().getTime();
           localStorage.setItem("lastLoginTime", now.toString());
-
           let storeEmail= await axios.get(`${process.env.REACT_APP_API_URL}/getuser?email=${res.data.email}`);
-
           if (storeEmail?.data?.email) {
             setLoading(true)
             setcheckUser(true);
@@ -74,9 +72,7 @@ const Login: React.FC = () => {
         .catch((err) => console.log(err));
     }
   , [user]);
-
   return (
-  
     <div>
       {!user?.access_token && (
         <div >
@@ -91,7 +87,6 @@ const Login: React.FC = () => {
           </div>
         </div>
       )}
-
       <>
       {user?.access_token && checkUser === false ? (
         <>
@@ -110,7 +105,16 @@ const Login: React.FC = () => {
         </div>
         <div className="form-group">
           <label htmlFor="dob">Date of Birth:</label>
-          <input type="date" id="date_Of_Birth" max={moment().format('YYYY-MM-DD')} value={dob} onChange={(event) => setDOB(event.target.value)} className="form-control" required />
+              <Flatpickr
+  value={dob} className="form-control" 
+  onChange={(date: Date[]) => setDOB(date[0] ? date[0].toISOString().substr(0, 10) : '')}
+  required 
+  options={{
+    dateFormat: 'Y-m-d',
+    maxDate: 'today',
+    disableMobile: true, 
+  }}
+/>
         </div>
         <div className="form-group">
           <label htmlFor="gender">Enter your gender:</label>
@@ -135,7 +139,4 @@ const Login: React.FC = () => {
  		</div>
  	);
  }
-
-
-
 export default Login;

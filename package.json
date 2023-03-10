@@ -11,6 +11,7 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
     "react-dom": "^18.2.0",
+    "react-flatpickr": "^3.10.13",
     "react-imgix": "^9.7.0",
     "react-paginate": "^8.1.4",
     "react-router-dom": "^6.8.1",
@@ -43,14 +44,15 @@
     ]
   },
   "devDependencies": {
-    "@types/react-imgix": "^9.5.0",
-    "@types/webpack-env": "^1.18.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
+    "@types/react-flatpickr": "^3.8.8",
+    "@types/react-imgix": "^9.5.0",
     "@types/react-router-dom": "^5.3.3",
+    "@types/webpack-env": "^1.18.0",
     "typescript-plugin-css-modules": "^4.2.2"
   }
 }

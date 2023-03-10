@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar  from "../Navbar/index";
 import moment from "moment";
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/material_green.css"
 
 function Profile() {
   const updateemail = JSON.parse(localStorage.getItem("email") as string);
@@ -114,7 +116,15 @@ function Profile() {
   </div>
      <div className="form-group">
           <label htmlFor="dob">Date of Birth:</label>
-          <input type="date" id="date_Of_Birth" max={moment().format('YYYY-MM-DD')} value={dob} onChange={(event) => setDOB(event.target.value)} className="form-control"  />
+          <Flatpickr
+  value={dob} className="form-control" 
+  onChange={(date: Date[]) => setDOB(date[0] ? date[0].toISOString().substr(0, 10) : "")}
+  options={{
+    dateFormat: "Y-m-d",
+    maxDate: "today",
+    disableMobile: true, 
+  }}
+/>
         </div>
      <div className="form-group">
   <label htmlFor="aboutme">About Me:</label>

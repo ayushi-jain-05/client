@@ -3,7 +3,7 @@ import { useNavigate} from "react-router-dom";
 import styles from "./styles.module.css";
 import { googleLogout } from "@react-oauth/google";
 import  {Dropdown}  from "react-bootstrap";
-import "../../App.css";
+//import "../../App.css";
 const Navbar = () => {
   const navigate = useNavigate();
   const logout = () => {
@@ -46,5 +46,4 @@ const Navbar = () => {
 </div>
   )
 }
-
-export default Navbar
+export default Navbar;

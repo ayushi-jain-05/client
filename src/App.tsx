@@ -4,7 +4,6 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import "./App.css";
 import Profile from "./pages/Profile/Profile";
-
 function App() {
   const [user, setUser] = useState<Array<{
     firstName: string,
@@ -37,7 +36,6 @@ function App() {
     </div>
   );
 }
-
 export default App;
 
 
