@@ -15,6 +15,7 @@ const Login: React.FC = () => {
   const [profile, setProfile] = useState<Profile>();
   const [mobileNumber, setMobileNumber] = useState<string>("");
   const [dob, setDOB] = useState<string>("");
+  const [dobShow, setDOBShow] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [gender, setGender] = useState<string>("");
   const [aboutme, setaboutMe] = useState<string>("");
@@ -44,7 +45,6 @@ const Login: React.FC = () => {
   };
 
   useEffect(() => {
-
     user &&
       axios
         .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
@@ -71,6 +71,12 @@ const Login: React.FC = () => {
         .catch((err) => console.log(err));
     }
   , [user]);
+  const dateFormatChange = (date: any) => {
+    const offset = date.getTimezoneOffset()
+    date = new Date(date.getTime() - (offset * 60 * 1000))
+    return date.toISOString().split('T')[0]
+}
+
   return (
     <div>
       {!user?.access_token && (
@@ -104,7 +110,7 @@ const Login: React.FC = () => {
         </div>
         <div className="form-group">
           <label htmlFor="dob">Date of Birth:</label>
-              <Flatpickr
+              {/* <Flatpickr
   value={dob} className="form-control" 
   onChange={(date: Date[]) => setDOB(date[0] ? date[0].toISOString().substr(0, 10) : "")}
   options={{
@@ -112,7 +118,20 @@ const Login: React.FC = () => {
     maxDate: "today",
     disableMobile: true, 
   }}
-/>
+/> */}
+<Flatpickr
+                                    value={dobShow}
+                                    className="form-control"
+                                    onChange={(date: Date[]) => {
+                                        setDOBShow(date);
+                                        setDOB(dateFormatChange(date[0]));
+                                    }}
+                                    options={{
+                                        dateFormat: "Y-m-d",
+                                        maxDate: "today",
+                                        disableMobile: true,
+                                    }}
+                                />
         </div>
         <div className="form-group">
           <label htmlFor="gender">Enter your gender:</label>

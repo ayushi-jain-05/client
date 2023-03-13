@@ -7,11 +7,8 @@ import "flatpickr/dist/themes/material_green.css";
 
 function Profile() {
     const updateemail = JSON.parse(localStorage.getItem("email") as string);
-
     const loggedInUser: string = updateemail;
-
     const navigate = useNavigate();
-
     const [firstName, setFirstName] = useState<string>("");
     const [lastName, setLastName] = useState<string>("");
     const [mobileNumber, setMobileNumber] = useState<string>("");
@@ -48,15 +45,6 @@ function Profile() {
         if (profileImage) {
             formData.append("profileImage", profileImage as File);
         }
-
-        console.log({
-            firstName
-            , lastName
-            , mobileNumber
-            , dob
-            , gender
-            , aboutme
-        })
         formData.append("firstName", firstName);
         formData.append("lastName", lastName);
         formData.append("mobileNumber", mobileNumber);
@@ -70,7 +58,7 @@ function Profile() {
                 setFirstName(firstName);
                 setLastName(lastName);
                 setMobileNumber(mobileNumber);
-                setDOB(dob);
+                setDOB(dobShow);
                 setGender(gender);
                 setaboutMe(aboutme);
                 setProfileImage(image);
@@ -114,12 +102,14 @@ function Profile() {
                             <div className="form-group">
                                 <label htmlFor="mobileNumber">Number:</label>
                                 <input type="tel" className="form-control"
-                                    id="mobileNumber" value={mobileNumber} onChange={(event) => setMobileNumber(event.target.value.replace(/[^\d+]/g, ""))}
+                                    id="mobileNumber" value={mobileNumber} 
+                                    onChange={(event) => setMobileNumber(event.target.value.replace(/[^\d+]/g, ""))}
                                     pattern="[0-9]{10,14}" maxLength={10} />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="gender">Gender:</label>
-                                <select className="form-control" id="gender" value={gender} onChange={e => setGender(e.target.value)}>
+                                <select className="form-control" id="gender" value={gender} 
+                                onChange={e => setGender(e.target.value)}>
                                     <option value="">--Please select an option--</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
@@ -129,12 +119,11 @@ function Profile() {
                             <div className="form-group">
                                 <label htmlFor="dob">Date of Birth:</label>
                                 <Flatpickr
-                                    value={dobShow}
+                                    value={dob}
                                     className="form-control"
                                     onChange={(date: Date[]) => {
                                         setDOBShow(date);
                                         setDOB(dateFormatChange(date[0]));
-                                        console.log({ date })
                                     }}
                                     options={{
                                         dateFormat: "Y-m-d",
@@ -145,20 +134,20 @@ function Profile() {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="aboutme">About Me:</label>
-                                <textarea className="form-control" id="about_Me" value={aboutme} onChange={e => setaboutMe(e.target.value)} />
+                                <textarea className="form-control" id="about_Me" value={aboutme} 
+                                onChange={e => setaboutMe(e.target.value)} />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="profileImage">Profile Image:</label>
-                                <input name="profile_Image" type="file" onChange={handleImageChange} />
+                                <input name="profile_Image" type="file" 
+                                onChange={handleImageChange} />
                             </div>
                             <br></br>
                             <button type="submit" className="btn btn-primary">Save</button>
                         </form>
                     </div>
                 </>
-            ) : (
-                navigate("/login")
-            )
+            ) : ( navigate("/login") )
             }
         </>
     )
