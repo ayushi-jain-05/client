@@ -110,16 +110,7 @@ const Login: React.FC = () => {
         </div>
         <div className="form-group">
           <label htmlFor="dob">Date of Birth:</label>
-              {/* <Flatpickr
-  value={dob} className="form-control" 
-  onChange={(date: Date[]) => setDOB(date[0] ? date[0].toISOString().substr(0, 10) : "")}
-  options={{
-    dateFormat: "Y-m-d",
-    maxDate: "today",
-    disableMobile: true, 
-  }}
-/> */}
-<Flatpickr
+          <Flatpickr
                                     value={dobShow}
                                     className="form-control"
                                     onChange={(date: Date[]) => {
