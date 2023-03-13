@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import "./App.css";
 import Profile from "./pages/Profile/Profile";
 function App() {
+  
   const [user, setUser] = useState<Array<{
     firstName: string,
     lastName: string,
@@ -15,6 +16,7 @@ function App() {
     loginTime: string,
     image: string
   }>>([]);
+
   return (
     <div className="container">
       <Routes>

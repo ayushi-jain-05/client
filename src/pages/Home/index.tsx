@@ -20,8 +20,7 @@ export default function UserProfile() {
   const [search, setSearch] = useState<string>("")
   let [actualData, setActualData] = useState<UserData[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
-  const startIndex = (page - 1) * limit;
-  const endIndex = page * limit;
+  const [reset,setReset] = useState<number>(1);
 
   //LastLoginTime
   const [lastLoginTime, setLastLoginTime] = useState(localStorage.getItem("lastLoginTime"));
@@ -35,9 +34,8 @@ export default function UserProfile() {
   const getData = async () => {
     try {
       setLoading(true);
-      setPage(filterdata);
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/fetchdata`,
+        `${process.env.REACT_APP_API_URL}/fetchdata?page=${page}&limit=${limit}`,
         {
           method: "GET",
           headers: {
@@ -49,7 +47,6 @@ export default function UserProfile() {
       if (temp.length === 0) {
         setisNext(false);
       }
-      setActualData(temp.user);
       setUserData(temp.user);
       setTotalResult(Number(temp.totalResults));
     }
@@ -70,26 +67,51 @@ export default function UserProfile() {
   };
 
   useEffect(() => {
-    getData();
-  }, []);
+    if(search === "")
+    {
+      getData();
+    }else
+    {
+      getSearchData();
+    }
+  }, [page,reset]);
 
+  const handleKeypress = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') {
+      if(page ===1){
+        getSearchData();
+      }
+      else{
+        setPage(1);
+      }
+    }
+  };
+
+  // Onclick search button
+   const onSearch =() =>{
+    if(page ===1){
+      getSearchData();
+    }
+    else{
+      setPage(1);
+    }
+   }
   //Search Reset
   const onClickReset = () => {
+    setPage(1);
+    setReset((old) =>old +1);
     const inputElement = inputRef.current;
     if (inputElement) {
       inputElement.value = "";
     }
     setSearch("");
-    getData();
   }
 
   //Searching
   const getSearchData = async () => {
     setLoading(true);
-    setFilterdata(page);
-    setPage(1);
     const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/fetchsearchdata/${search}`,
+      `${process.env.REACT_APP_API_URL}/fetchsearchdata/${search}?page=${page}&limit=${limit}`,
       {
         method: "GET",
         headers: {
@@ -124,12 +146,12 @@ export default function UserProfile() {
           <br></br>
           <div className="ui search">
             <div className="input-group mb-3">
-              <input type="text" ref={inputRef} className="form-control" placeholder="Search User from First Name, Last Name, Email and Mobile Number" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)} />
+              <input type="text" ref={inputRef} className="form-control" placeholder="Search User from First Name, Last Name, Email and Mobile Number" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)} onKeyDown = {handleKeypress}/>
               <button
                 className="btn btn-primary "
                 type="submit"
                 style={{ width: "10%", height: "50px" }}
-                onClick={getSearchData}
+                onClick={onSearch}
               >
                 Search
               </button>
@@ -157,7 +179,7 @@ export default function UserProfile() {
     </tr>
   </thead>
   <tbody>
-    {userData.slice(startIndex, endIndex).map((el) => (
+    {userData.map((el) => (
       <tr key={el._id}>
         <td>{el.firstName}</td>
         <td>{el.lastName}</td>
@@ -173,10 +195,11 @@ export default function UserProfile() {
 </table>
           <br></br>
           <h5>Total users: {totalResult}</h5>
-          <div className="btn-group" role="group" aria-label="Pagination buttons">
+          
+          <div className="btn-group" role="group" aria-label="Pagination buttons" >
             <button type="button" className="btn btn-secondary" onClick={() => changePage("prev")} disabled={page === 1}>
               Previous
-            </button>
+            </button> 
             <button type="button" className="btn btn-secondary" onClick={() => changePage("next")} disabled={page + 1 > Math.ceil(totalResult / limit)}>
               Next
             </button>

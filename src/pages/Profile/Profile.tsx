@@ -1,158 +1,166 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Navbar  from "../Navbar/index";
-import moment from "moment";
+import Navbar from "../Navbar/index";
 import Flatpickr from "react-flatpickr";
-import "flatpickr/dist/themes/material_green.css"
+import "flatpickr/dist/themes/material_green.css";
 
 function Profile() {
-  const updateemail = JSON.parse(localStorage.getItem("email") as string);
+    const updateemail = JSON.parse(localStorage.getItem("email") as string);
 
-  const loggedInUser: string = updateemail;
+    const loggedInUser: string = updateemail;
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
-  const [mobileNumber, setMobileNumber] = useState<string>("");
-  const [dob, setDOB] = useState<string>("");
-  const [gender, setGender] = useState<string>("");
-  const [aboutme, setaboutMe] = useState<string>("");
-  const [profileImage, setProfileImage] = useState<File | null>(null);
+    const [firstName, setFirstName] = useState<string>("");
+    const [lastName, setLastName] = useState<string>("");
+    const [mobileNumber, setMobileNumber] = useState<string>("");
+    const [dob, setDOB] = useState<any>("");
+    const [dobShow, setDOBShow] = useState<any>([]);
+    const [gender, setGender] = useState<string>("");
+    const [aboutme, setaboutMe] = useState<string>("");
+    const [profileImage, setProfileImage] = useState<File | null>(null);
 
-  useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/fetchdata/${updateemail}`)
-      .then((res) => {
-        setFirstName(res.data.firstName);
-        setLastName(res.data.lastName);
-        setMobileNumber(res.data.Mobile);
-        setDOB(res.data.DateofBirth);
-        setGender(res.data.Gender);
-        setaboutMe(res.data.aboutme);
-        setProfileImage(res.data.profileImage);
-      })
-      .catch((err) => console.log(err));
-  }, [updateemail]);
+    useEffect(() => {
+        axios
+            .get(`${process.env.REACT_APP_API_URL}/fetchdata/${updateemail}`)
+            .then((res) => {
+                setFirstName(res.data.firstName);
+                setLastName(res.data.lastName);
+                setMobileNumber(res.data.Mobile);
+                setDOB(res.data.DateofBirth);
+                setGender(res.data.Gender);
+                setaboutMe(res.data.aboutme);
+                setProfileImage(res.data.profileImage);
+            })
+            .catch((err) => console.log(err));
+    }, [updateemail]);
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0];
-      setProfileImage(file);
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length > 0) {
+            const file = e.target.files[0];
+            setProfileImage(file);
+        }
+    };
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData();
+        if (profileImage) {
+            formData.append("profileImage", profileImage as File);
+        }
+
+        console.log({
+            firstName
+            , lastName
+            , mobileNumber
+            , dob
+            , gender
+            , aboutme
+        })
+        formData.append("firstName", firstName);
+        formData.append("lastName", lastName);
+        formData.append("mobileNumber", mobileNumber);
+        formData.append("dob", dob);
+        formData.append("gender", gender);
+        formData.append("aboutme", aboutme);
+        axios
+            .patch(`${process.env.REACT_APP_API_URL}/editprofile/${updateemail}`, formData)
+            .then((res) => {
+                const { firstName, lastName, mobileNumber, dob, gender, aboutme, image } = res.data;
+                setFirstName(firstName);
+                setLastName(lastName);
+                setMobileNumber(mobileNumber);
+                setDOB(dob);
+                setGender(gender);
+                setaboutMe(aboutme);
+                setProfileImage(image);
+            })
+            .catch((err) => console.log(err));
+        navigate("/data/profile");
+    };
+
+    const dateFormatChange = (date: any) => {
+        const offset = date.getTimezoneOffset()
+        date = new Date(date.getTime() - (offset * 60 * 1000))
+        return date.toISOString().split('T')[0]
     }
-  };
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData();
-    if (profileImage) {
-      formData.append("profileImage", profileImage as File);
-    }
-  
-    formData.append("firstName", firstName);
-    formData.append("lastName", lastName);
-    formData.append("mobileNumber", mobileNumber);
-    formData.append("dob", dob);
-    formData.append("gender", gender);
-    formData.append("aboutme", aboutme);
-    axios
-      .patch(`${process.env.REACT_APP_API_URL}/editprofile/${updateemail}`, formData)
-      .then((res) => {
-        const { firstName, lastName, mobileNumber, dob, gender,aboutme,image } = res.data;
-        setFirstName(firstName);
-        setLastName(lastName);
-        setMobileNumber(mobileNumber);
-        setDOB(dob);
-        setGender(gender);
-        setaboutMe(aboutme);
-        setProfileImage(image);
-      })
-      .catch((err) => console.log(err));
-      navigate("/data/profile"); 
-  };
-  
-  
-  return (
-    <>
-    {loggedInUser ? (
-    <>
-    <Navbar/><br></br>
-    <div>
-      <form onSubmit={handleSubmit} className="form-group">
-        <div className="form-group">
-          <label htmlFor="firstName">First Name:</label>
-          <input
-            type="text"
-            className="form-control"
-            id="firstName"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="lastName">Last Name:</label>
-          <input
-            type="text"
-            className="form-control"
-            id="lastName"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="mobileNumber">Number:</label>
-          <input type="tel" className="form-control"
-          id="mobileNumber" value={mobileNumber} onChange={(event) => setMobileNumber(event.target.value.replace(/[^\d+]/g,""))} 
-          pattern="[0-9]{10,14}" maxLength={10} />
-        </div>
-        <div className="form-group">
-    <label htmlFor="gender">Gender:</label>
-    <select className="form-control" id="gender" value={gender} onChange={e => setGender(e.target.value)}>
-      <option value="">--Please select an option--</option>
-      <option value="male">Male</option>
-      <option value="female">Female</option>
-      <option value="other">Other</option>
-    </select>
-  </div>
-     <div className="form-group">
-          <label htmlFor="dob">Date of Birth:</label>
-          <Flatpickr
-  value={dob} className="form-control" 
-  onChange={(date: Date[]) => setDOB(date[0] ? date[0].toISOString().substr(0, 10) : "")}
-  options={{
-    dateFormat: "Y-m-d",
-    maxDate: "today",
-    disableMobile: true, 
-  }}
-/>
-        </div>
-     <div className="form-group">
-  <label htmlFor="aboutme">About Me:</label>
-  <textarea className="form-control" id="about_Me" value={aboutme} onChange={e => setaboutMe(e.target.value)} />
-</div>
-     <div className="form-group">
-    <label htmlFor="profileImage">Profile Image:</label>
-    <input name ="profile_Image" type="file" onChange={handleImageChange} />
-  </div>
-     <br></br>
-     <button type="submit" className="btn btn-primary">Save</button>
-   </form>
-     </div>
-     </>
-     ) : (
-      navigate("/login")
+    return (
+        <>
+            {loggedInUser ? (
+                <>
+                    <Navbar /><br></br>
+                    <div>
+                        <form onSubmit={handleSubmit} className="form-group">
+                            <div className="form-group">
+                                <label htmlFor="firstName">First Name:</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="firstName"
+                                    value={firstName}
+                                    onChange={(e) => setFirstName(e.target.value)}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="lastName">Last Name:</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="lastName"
+                                    value={lastName}
+                                    onChange={(e) => setLastName(e.target.value)}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="mobileNumber">Number:</label>
+                                <input type="tel" className="form-control"
+                                    id="mobileNumber" value={mobileNumber} onChange={(event) => setMobileNumber(event.target.value.replace(/[^\d+]/g, ""))}
+                                    pattern="[0-9]{10,14}" maxLength={10} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="gender">Gender:</label>
+                                <select className="form-control" id="gender" value={gender} onChange={e => setGender(e.target.value)}>
+                                    <option value="">--Please select an option--</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="dob">Date of Birth:</label>
+                                <Flatpickr
+                                    value={dobShow}
+                                    className="form-control"
+                                    onChange={(date: Date[]) => {
+                                        setDOBShow(date);
+                                        setDOB(dateFormatChange(date[0]));
+                                        console.log({ date })
+                                    }}
+                                    options={{
+                                        dateFormat: "Y-m-d",
+                                        maxDate: "today",
+                                        disableMobile: true,
+                                    }}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="aboutme">About Me:</label>
+                                <textarea className="form-control" id="about_Me" value={aboutme} onChange={e => setaboutMe(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="profileImage">Profile Image:</label>
+                                <input name="profile_Image" type="file" onChange={handleImageChange} />
+                            </div>
+                            <br></br>
+                            <button type="submit" className="btn btn-primary">Save</button>
+                        </form>
+                    </div>
+                </>
+            ) : (
+                navigate("/login")
+            )
+            }
+        </>
     )
 }
-</>
-  )
-}
 export default Profile
-
-
-
-
-
-
-
-
-

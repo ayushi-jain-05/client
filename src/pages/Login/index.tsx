@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import moment from "moment";
-import Flatpickr from 'react-flatpickr';
-import 'flatpickr/dist/themes/material_green.css'
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/material_green.css"
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import styles from "./styles.module.css";
@@ -22,9 +22,7 @@ const Login: React.FC = () => {
 
   //google authentication
   const googleAuth = useGoogleLogin({
-    onSuccess: (codeResponse) => {
-      setUser(codeResponse);
-    },
+    onSuccess: (codeResponse) => setUser(codeResponse),
     onError: (error) => console.log("Login Failed:", error),
   });
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -38,7 +36,7 @@ const Login: React.FC = () => {
       ...profile!,
     };
     if (!dob) {
-      alert('Please select a date of birth.');
+      alert("Please select a date of birth.");
       return;
     }
     axios.post(`${process.env.REACT_APP_API_URL}/userdata`, userDetails);
@@ -46,6 +44,7 @@ const Login: React.FC = () => {
   };
 
   useEffect(() => {
+
     user &&
       axios
         .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
@@ -107,11 +106,10 @@ const Login: React.FC = () => {
           <label htmlFor="dob">Date of Birth:</label>
               <Flatpickr
   value={dob} className="form-control" 
-  onChange={(date: Date[]) => setDOB(date[0] ? date[0].toISOString().substr(0, 10) : '')}
-  required 
+  onChange={(date: Date[]) => setDOB(date[0] ? date[0].toISOString().substr(0, 10) : "")}
   options={{
-    dateFormat: 'Y-m-d',
-    maxDate: 'today',
+    dateFormat: "Y-m-d",
+    maxDate: "today",
     disableMobile: true, 
   }}
 />
