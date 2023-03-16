@@ -5,26 +5,22 @@ import Login from "./pages/Login";
 import "./App.css";
 import Profile from "./pages/Profile/Profile";
 function App() {
-  
-  const [user, setUser] = useState<Array<{
-    firstName: string,
-    lastName: string,
-    gender: string,
-    dateOfBirth: string,
-    email: string,
-    mobile: string,
-    loginTime: string,
-    image: string
-  }>>([]);
-
+  const loggedInUser: string = JSON.parse(localStorage.getItem("email") as string)
   return (
     <div className="container">
       <Routes>
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile" element={
+        loggedInUser? (
+          <Profile />
+        ) : (
+          <Navigate to="/login" />
+        )
+      }/>
+        
         <Route
            path="/"
           element={
-            user.length > 0 ? (
+            loggedInUser ? (
               <Home />
             ) : (
               <Navigate to="/login" />

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../Navbar/index";
+import Spinner from "react-bootstrap/Spinner";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_green.css";
 
@@ -13,6 +14,7 @@ function Profile() {
     const [lastName, setLastName] = useState<string>("");
     const [mobileNumber, setMobileNumber] = useState<string>("");
     const [dob, setDOB] = useState<any>("");
+    const [loading, setLoading] = useState(false);
     const [dobShow, setDOBShow] = useState<any>([]);
     const [gender, setGender] = useState<string>("");
     const [aboutme, setaboutMe] = useState<string>("");
@@ -41,6 +43,7 @@ function Profile() {
     };
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setLoading(true);
         const formData = new FormData();
         if (profileImage) {
             formData.append("profileImage", profileImage as File);
@@ -64,11 +67,15 @@ function Profile() {
                 setProfileImage(image);
             })
             .catch((err) => console.log(err));
-        navigate("/data/profile");
+            setTimeout(()=>{
+                setLoading(false);
+                navigate("/data/profile");
+            },3000)
+        
     };
 
-    const dateFormatChange = (date: any) => {
-        const offset = date.getTimezoneOffset()
+    const dateFormatChange = async(date: any) => {
+        const offset = await date.getTimezoneOffset()
         date = new Date(date.getTime() - (offset * 60 * 1000))
         return date.toISOString().split('T')[0]
     }
@@ -77,6 +84,13 @@ function Profile() {
             {loggedInUser ? (
                 <>
                     <Navbar /><br></br>
+                    {loading && (
+          <div className="d-flex justify-content-center align-items-center">
+            <Spinner animation="border" role="status">
+              <span className="sr-only">Loading...</span>
+            </Spinner>
+          </div>
+        )}
                     <div>
                         <form onSubmit={handleSubmit} className="form-group">
                             <div className="form-group">
@@ -134,7 +148,7 @@ function Profile() {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="aboutme">About Me:</label>
-                                <textarea className="form-control" id="about_Me" value={aboutme} 
+                                <textarea className="form-control" id="about_Me" value={aboutme} maxLength={1000}
                                 onChange={e => setaboutMe(e.target.value)} />
                             </div>
                             <div className="form-group">

@@ -135,7 +135,7 @@ const Login: React.FC = () => {
         </div>
         <div className="form-group">
           <label htmlFor="aboutme">About Me:</label>
-          <textarea id="about_Me" value={aboutme} onChange={(event) => setaboutMe(event.target.value)} className="form-control" required></textarea>
+          <textarea id="about_Me" value={aboutme} onChange={(event) => setaboutMe(event.target.value)} className="form-control" maxLength={1000} required></textarea>
         </div>
         <br></br>
         <button type="submit" className="btn btn-primary">Submit</button>

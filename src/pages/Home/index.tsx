@@ -15,12 +15,11 @@ export default function UserProfile() {
   const [isNext, setisNext] = useState<boolean>(true);
   const [totalResult, setTotalResult] = useState(0);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const [filterdata, setFilterdata] = useState<number>(1);       //searchpage
+  const navigate = useNavigate();   //searchpage
   const [search, setSearch] = useState<string>("")
-  let [actualData, setActualData] = useState<UserData[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const [reset,setReset] = useState<number>(1);
+  
 
   //LastLoginTime
   const [lastLoginTime, setLastLoginTime] = useState(localStorage.getItem("lastLoginTime"));
@@ -58,15 +57,14 @@ export default function UserProfile() {
   };
 
   //Pagination
-  const changePage = (type: string) => {
+  const changePage =  (type: string) => {
     if (type === "prev") {
       setPage((old) => old - 1);
     } else if (type === "next") {
       setPage((old) => old + 1);
     }
   };
-
-  useEffect(() => {
+  useEffect (() => {
     if(search === "")
     {
       getData();
@@ -75,7 +73,6 @@ export default function UserProfile() {
       getSearchData();
     }
   }, [page,reset]);
-
   const handleKeypress = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter') {
       if(page ===1){
@@ -88,21 +85,21 @@ export default function UserProfile() {
   };
 
   // Onclick search button
-   const onSearch =() =>{
+   const onSearch =async () =>{
     if(page ===1){
-      getSearchData();
+      await getSearchData();
     }
     else{
-      setPage(1);
+     await setPage(1);
     }
    }
   //Search Reset
-  const onClickReset = () => {
+  const onClickReset = async () => {
     setPage(1);
     setReset((old) =>old +1);
-    const inputElement = inputRef.current;
+    const inputElement =  inputRef.current;
     if (inputElement) {
-      inputElement.value = "";
+       inputElement.value = "";
     }
     setSearch("");
   }
@@ -184,10 +181,14 @@ export default function UserProfile() {
         <td>{el.firstName}</td>
         <td>{el.lastName}</td>
         <td>{el.Gender}</td>
-        <td>{el.DateofBirth}</td>
+        <td>{el.DateofBirth.split("-").reverse().join("-")}</td>
         <td>{el.email}</td>
         <td>{el.Mobile}</td>
-        <td>{el.aboutme}</td>
+        <td><span className="aboutme">
+                  {el.aboutme && el.aboutme.length > 50
+                    ? el.aboutme.substr(0, 70) + "..."
+                    : el.aboutme}
+                </span></td>
         <td><img src={el.image ? `${process.env.REACT_APP_API_URL}/${el.image}` : el.google_image} alt="profile" className="img-thumbnail" /></td>
       </tr>
     ))}
