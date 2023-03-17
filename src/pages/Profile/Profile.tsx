@@ -74,8 +74,8 @@ function Profile() {
         
     };
 
-    const dateFormatChange = async(date: any) => {
-        const offset = await date.getTimezoneOffset()
+    const dateFormatChange = (date: any) => {
+        const offset = date.getTimezoneOffset()
         date = new Date(date.getTime() - (offset * 60 * 1000))
         return date.toISOString().split('T')[0]
     }
